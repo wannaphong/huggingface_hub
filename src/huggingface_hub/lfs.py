@@ -371,7 +371,7 @@ def _upload_parts_iteratively(
                 seek_from=chunk_size * part_idx,
                 read_limit=chunk_size,
             ) as fileobj_slice:
-                part_upload_res = http_backoff("PUT", part_upload_url, data=fileobj_slice)
+                part_upload_res = http_backoff("PUT", part_upload_url, data=fileobj_slice, retry_on_status_codes=(500, 502, 503, 504))
                 hf_raise_for_status(part_upload_res)
                 headers.append(part_upload_res.headers)
     return headers  # type: ignore
