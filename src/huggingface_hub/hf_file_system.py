@@ -419,7 +419,7 @@ class HfFileSystemFile(fsspec.spec.AbstractBufferedFile):
         url = (
             f"{self.fs.endpoint}/{REPO_TYPES_URL_PREFIXES.get(self.resolved_path.repo_type, '') + self.resolved_path.repo_id}/resolve/{safe_quote(self.resolved_path.revision)}/{safe_quote(self.resolved_path.path_in_repo)}"
         )
-        r = http_backoff("GET", url, headers=headers)
+        r = http_backoff("GET", url, headers=headers, retry_on_status_codes=(500, 502, 503, 504))
         hf_raise_for_status(r)
         return r.content
 
