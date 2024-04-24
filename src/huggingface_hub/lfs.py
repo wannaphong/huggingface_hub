@@ -288,7 +288,7 @@ def _upload_single_part(operation: "CommitOperationAdd", upload_url: str) -> Non
     Raises: `requests.HTTPError` if the upload resulted in an error
     """
     with operation.as_file(with_tqdm=True) as fileobj:
-        response = http_backoff("PUT", upload_url, data=fileobj)
+        response = http_backoff("PUT", upload_url, data=fileobj, retry_on_status_codes=(500, 502, 503, 504))
         hf_raise_for_status(response)
 
 
