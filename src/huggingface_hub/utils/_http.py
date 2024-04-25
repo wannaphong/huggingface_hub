@@ -168,7 +168,7 @@ def http_backoff(
         Timeout,
         ProxyError,
     ),
-    retry_on_status_codes: Union[int, Tuple[int, ...]] = HTTPStatus.SERVICE_UNAVAILABLE,
+    retry_on_status_codes: Union[int, Tuple[int, ...]] = (500, 502, 503, 504),
     **kwargs,
 ) -> Response:
     """Wrapper around requests to retry calls on an endpoint, with exponential backoff.
